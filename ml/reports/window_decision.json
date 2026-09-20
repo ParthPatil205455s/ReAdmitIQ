@@ -1,0 +1,4 @@
+{
+  "chosen_window_days": 365,
+  "reason": "30-day window produced only 45 positive episodes (0.08% prevalence) -- far below the 400 floor, and this held at 60 and 90 days too, which the original escape hatch did not anticipate. Because admission/discharge dates in this synthetic dataset are effectively independent per episode (median gap between a patient's episodes is negative, i.e. episodes frequently overlap), date-proximity readmission signal is extremely weak regardless of window. Widened the search until 365 days cleared the floor (405 positives, 0.89% prevalence). All smaller windows (30/60/90/180d where below floor) are retained and reported as secondary models."
+}

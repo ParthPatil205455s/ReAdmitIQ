@@ -1,0 +1,27 @@
+{
+  "rows_before": 55500,
+  "rows_after": 54966,
+  "rows_dropped_total": 534,
+  "duplicates_removed": 534,
+  "impossible_dates_removed": 0,
+  "invalid_age_removed": 0,
+  "null_dates_removed": 0,
+  "negative_billing_corrected": 106,
+  "null_counts_before": {
+    "name": 0,
+    "age": 0,
+    "gender": 0,
+    "blood_type": 0,
+    "primary_condition": 0,
+    "admission_date": 0,
+    "doctor": 0,
+    "hospital": 0,
+    "insurance_provider": 0,
+    "billing_amount": 0,
+    "room_number": 0,
+    "admission_type": 0,
+    "discharge_date": 0,
+    "medication": 0,
+    "test_result": 0
+  }
+}

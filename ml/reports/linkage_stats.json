@@ -1,0 +1,7 @@
+{
+  "total_episodes": 54966,
+  "distinct_pseudo_patients": 48896,
+  "repeat_patients": 5779,
+  "episodes_belonging_to_repeat_patients": 11849,
+  "max_episodes_for_one_patient": 5
+}

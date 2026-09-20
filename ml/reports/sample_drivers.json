@@ -1,0 +1,1062 @@
+[
+  {
+    "row_index": 0,
+    "top_drivers": [
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 1.4016793037484028",
+        "contribution": -0.0477,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 35735.41206125037",
+        "contribution": -0.0438,
+        "direction": "decreases"
+      },
+      {
+        "feature": "age",
+        "display": "Age: 35",
+        "contribution": -0.0415,
+        "direction": "decreases"
+      },
+      {
+        "feature": "insurance_provider_UnitedHealthcare",
+        "display": "Insurance Provider Unitedhealthcare: ",
+        "contribution": -0.0408,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 10.483925393669818",
+        "contribution": -0.0386,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 8",
+        "contribution": -0.0293,
+        "direction": "decreases"
+      },
+      {
+        "feature": "length_of_stay",
+        "display": "Length of stay: 17",
+        "contribution": -0.0261,
+        "direction": "decreases"
+      },
+      {
+        "feature": "blood_type_A+",
+        "display": "Blood Type A+: ",
+        "contribution": -0.0236,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 1,
+    "top_drivers": [
+      {
+        "feature": "age",
+        "display": "Age: 80",
+        "contribution": -0.0656,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 10.24779816783338",
+        "contribution": -0.0423,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 1.0991247505233113",
+        "contribution": -0.0412,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 28219.33701729036",
+        "contribution": -0.0288,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 7",
+        "contribution": -0.0238,
+        "direction": "decreases"
+      },
+      {
+        "feature": "insurance_provider_Cigna",
+        "display": "Insurance Provider Cigna: ",
+        "contribution": -0.0202,
+        "direction": "decreases"
+      },
+      {
+        "feature": "test_result_ord",
+        "display": "Test result severity: 2",
+        "contribution": -0.0195,
+        "direction": "decreases"
+      },
+      {
+        "feature": "age_band_75+",
+        "display": "Age Band 75+: ",
+        "contribution": -0.0194,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 2,
+    "top_drivers": [
+      {
+        "feature": "age",
+        "display": "Age: 80",
+        "contribution": -0.0593,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 1.9652172631787574",
+        "contribution": -0.0394,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 50621.32349424558",
+        "contribution": -0.0323,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 10",
+        "contribution": -0.031,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 10.832147933761743",
+        "contribution": -0.0289,
+        "direction": "decreases"
+      },
+      {
+        "feature": "medication_Paracetamol",
+        "display": "Medication Paracetamol: ",
+        "contribution": -0.0214,
+        "direction": "decreases"
+      },
+      {
+        "feature": "test_result_ord",
+        "display": "Test result severity: 2",
+        "contribution": -0.0183,
+        "direction": "decreases"
+      },
+      {
+        "feature": "length_of_stay",
+        "display": "Length of stay: 11",
+        "contribution": -0.0178,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 3,
+    "top_drivers": [
+      {
+        "feature": "age",
+        "display": "Age: 72",
+        "contribution": -0.0588,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 31875.62088155025",
+        "contribution": -0.0433,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 11",
+        "contribution": -0.039,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 1.241534619602969",
+        "contribution": -0.0383,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 10.36962813235374",
+        "contribution": -0.038,
+        "direction": "decreases"
+      },
+      {
+        "feature": "length_of_stay",
+        "display": "Length of stay: 21",
+        "contribution": -0.0335,
+        "direction": "decreases"
+      },
+      {
+        "feature": "insurance_provider_UnitedHealthcare",
+        "display": "Insurance Provider Unitedhealthcare: ",
+        "contribution": -0.0262,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_dayofweek",
+        "display": "Admission Dayofweek: 6",
+        "contribution": -0.0256,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 4,
+    "top_drivers": [
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 11329.1521821028",
+        "contribution": -0.0403,
+        "direction": "decreases"
+      },
+      {
+        "feature": "length_of_stay",
+        "display": "Length of stay: 4",
+        "contribution": -0.0373,
+        "direction": "decreases"
+      },
+      {
+        "feature": "age",
+        "display": "Age: 52",
+        "contribution": -0.0353,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 0.4443726048394675",
+        "contribution": -0.032,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 9.33522278571497",
+        "contribution": -0.0318,
+        "direction": "decreases"
+      },
+      {
+        "feature": "medication_Penicillin",
+        "display": "Medication Penicillin: ",
+        "contribution": -0.0277,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_dayofweek",
+        "display": "Admission Dayofweek: 2",
+        "contribution": -0.0227,
+        "direction": "decreases"
+      },
+      {
+        "feature": "test_result_ord",
+        "display": "Test result severity: 2",
+        "contribution": -0.0193,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 5,
+    "top_drivers": [
+      {
+        "feature": "age",
+        "display": "Age: 65",
+        "contribution": -0.0389,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 24479.54699360559",
+        "contribution": -0.0388,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 10.10563408088666",
+        "contribution": -0.0377,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 0.9601812993582368",
+        "contribution": -0.0347,
+        "direction": "decreases"
+      },
+      {
+        "feature": "length_of_stay",
+        "display": "Length of stay: 20",
+        "contribution": -0.0319,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 2",
+        "contribution": -0.0316,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_dayofweek",
+        "display": "Admission Dayofweek: 5",
+        "contribution": -0.0293,
+        "direction": "decreases"
+      },
+      {
+        "feature": "insurance_provider_Blue Cross",
+        "display": "Insurance Provider Blue Cross: ",
+        "contribution": -0.0249,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 6,
+    "top_drivers": [
+      {
+        "feature": "length_of_stay",
+        "display": "Length of stay: 26",
+        "contribution": -0.0465,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 8838.567155652614",
+        "contribution": -0.033,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 0.3431301980484133",
+        "contribution": -0.0314,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 9.086993190140209",
+        "contribution": -0.0279,
+        "direction": "decreases"
+      },
+      {
+        "feature": "age",
+        "display": "Age: 49",
+        "contribution": -0.027,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 4",
+        "contribution": -0.025,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_dayofweek",
+        "display": "Admission Dayofweek: 6",
+        "contribution": -0.0244,
+        "direction": "decreases"
+      },
+      {
+        "feature": "medication_Lipitor",
+        "display": "Medication Lipitor: ",
+        "contribution": -0.0189,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 7,
+    "top_drivers": [
+      {
+        "feature": "length_of_stay",
+        "display": "Length of stay: 29",
+        "contribution": -0.0586,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_dayofweek",
+        "display": "Admission Dayofweek: 0",
+        "contribution": -0.0493,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 9",
+        "contribution": -0.0367,
+        "direction": "decreases"
+      },
+      {
+        "feature": "age",
+        "display": "Age: 64",
+        "contribution": -0.0321,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 12320.88909515371",
+        "contribution": -0.0235,
+        "direction": "decreases"
+      },
+      {
+        "feature": "blood_type_A-",
+        "display": "Blood Type A-: ",
+        "contribution": -0.021,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 9.419132560978396",
+        "contribution": -0.0207,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 0.4783206418982591",
+        "contribution": -0.0182,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 8,
+    "top_drivers": [
+      {
+        "feature": "age",
+        "display": "Age: 22",
+        "contribution": -0.0411,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 9283.615351510403",
+        "contribution": -0.0396,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 9.136114046058513",
+        "contribution": -0.0383,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 1",
+        "contribution": -0.0333,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 0.3615907560454457",
+        "contribution": -0.0322,
+        "direction": "decreases"
+      },
+      {
+        "feature": "length_of_stay",
+        "display": "Length of stay: 6",
+        "contribution": -0.0304,
+        "direction": "decreases"
+      },
+      {
+        "feature": "insurance_provider_UnitedHealthcare",
+        "display": "Insurance Provider Unitedhealthcare: ",
+        "contribution": -0.0219,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_dayofweek",
+        "display": "Admission Dayofweek: 4",
+        "contribution": -0.0186,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 9,
+    "top_drivers": [
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 1.1059460668867835",
+        "contribution": -0.0406,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 10.24696299361277",
+        "contribution": -0.0404,
+        "direction": "decreases"
+      },
+      {
+        "feature": "length_of_stay",
+        "display": "Length of stay: 20",
+        "contribution": -0.0394,
+        "direction": "decreases"
+      },
+      {
+        "feature": "age",
+        "display": "Age: 64",
+        "contribution": -0.0374,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 28195.777958645205",
+        "contribution": -0.0316,
+        "direction": "decreases"
+      },
+      {
+        "feature": "test_result_ord",
+        "display": "Test result severity: 0",
+        "contribution": -0.024,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 3",
+        "contribution": -0.0218,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_dayofweek",
+        "display": "Admission Dayofweek: 4",
+        "contribution": -0.0213,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 10,
+    "top_drivers": [
+      {
+        "feature": "admission_dayofweek",
+        "display": "Admission Dayofweek: 0",
+        "contribution": -0.0512,
+        "direction": "decreases"
+      },
+      {
+        "feature": "length_of_stay",
+        "display": "Length of stay: 25",
+        "contribution": -0.0457,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 0.6683498063902639",
+        "contribution": -0.0385,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 9",
+        "contribution": -0.0349,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 17039.38673314395",
+        "contribution": -0.0337,
+        "direction": "decreases"
+      },
+      {
+        "feature": "age",
+        "display": "Age: 58",
+        "contribution": -0.0295,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 9.743341495732805",
+        "contribution": -0.0295,
+        "direction": "decreases"
+      },
+      {
+        "feature": "test_result_ord",
+        "display": "Test result severity: 2",
+        "contribution": -0.0208,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 11,
+    "top_drivers": [
+      {
+        "feature": "age",
+        "display": "Age: 85",
+        "contribution": -0.0611,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 1.7882533021566307",
+        "contribution": -0.046,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 11",
+        "contribution": -0.0399,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 45591.00534021256",
+        "contribution": -0.0375,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 10.727487658645302",
+        "contribution": -0.0363,
+        "direction": "decreases"
+      },
+      {
+        "feature": "blood_type_B+",
+        "display": "Blood Type B+: ",
+        "contribution": -0.0261,
+        "direction": "decreases"
+      },
+      {
+        "feature": "length_of_stay",
+        "display": "Length of stay: 16",
+        "contribution": -0.0175,
+        "direction": "decreases"
+      },
+      {
+        "feature": "medication_Penicillin",
+        "display": "Medication Penicillin: ",
+        "contribution": -0.0175,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 12,
+    "top_drivers": [
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 1.314012239927677",
+        "contribution": -0.05,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 10.427196012863435",
+        "contribution": -0.0444,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 33764.53926020818",
+        "contribution": -0.0423,
+        "direction": "decreases"
+      },
+      {
+        "feature": "age",
+        "display": "Age: 61",
+        "contribution": -0.036,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 5",
+        "contribution": -0.0254,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_dayofweek",
+        "display": "Admission Dayofweek: 4",
+        "contribution": -0.0224,
+        "direction": "decreases"
+      },
+      {
+        "feature": "insurance_provider_UnitedHealthcare",
+        "display": "Insurance Provider Unitedhealthcare: ",
+        "contribution": -0.0207,
+        "direction": "decreases"
+      },
+      {
+        "feature": "blood_type_A+",
+        "display": "Blood Type A+: ",
+        "contribution": -0.0202,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 13,
+    "top_drivers": [
+      {
+        "feature": "length_of_stay",
+        "display": "Length of stay: 26",
+        "contribution": -0.0545,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 10.307933620049647",
+        "contribution": -0.0448,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 29968.444353526927",
+        "contribution": -0.0408,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 1.1634327221977503",
+        "contribution": -0.0378,
+        "direction": "decreases"
+      },
+      {
+        "feature": "age",
+        "display": "Age: 42",
+        "contribution": -0.0286,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_dayofweek",
+        "display": "Admission Dayofweek: 6",
+        "contribution": -0.0229,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 5",
+        "contribution": -0.0218,
+        "direction": "decreases"
+      },
+      {
+        "feature": "blood_type_B+",
+        "display": "Blood Type B+: ",
+        "contribution": -0.0216,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 14,
+    "top_drivers": [
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 11",
+        "contribution": -0.0507,
+        "direction": "decreases"
+      },
+      {
+        "feature": "age",
+        "display": "Age: 31",
+        "contribution": -0.0475,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 22500.530549063777",
+        "contribution": -0.0392,
+        "direction": "decreases"
+      },
+      {
+        "feature": "length_of_stay",
+        "display": "Length of stay: 20",
+        "contribution": -0.039,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 0.8763809727786632",
+        "contribution": -0.039,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 10.021338610281791",
+        "contribution": -0.0354,
+        "direction": "decreases"
+      },
+      {
+        "feature": "medication_Penicillin",
+        "display": "Medication Penicillin: ",
+        "contribution": -0.0338,
+        "direction": "decreases"
+      },
+      {
+        "feature": "test_result_ord",
+        "display": "Test result severity: 2",
+        "contribution": -0.0165,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 15,
+    "top_drivers": [
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 1.436273142427572",
+        "contribution": -0.0392,
+        "direction": "decreases"
+      },
+      {
+        "feature": "age",
+        "display": "Age: 38",
+        "contribution": -0.0382,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 10.518604066126521",
+        "contribution": -0.0374,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 36996.44244490305",
+        "contribution": -0.0354,
+        "direction": "decreases"
+      },
+      {
+        "feature": "length_of_stay",
+        "display": "Length of stay: 4",
+        "contribution": -0.0286,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 3",
+        "contribution": -0.0275,
+        "direction": "decreases"
+      },
+      {
+        "feature": "is_weekend_discharge",
+        "display": "Weekend discharge: 0",
+        "contribution": -0.0256,
+        "direction": "decreases"
+      },
+      {
+        "feature": "medication_Aspirin",
+        "display": "Medication Aspirin: ",
+        "contribution": -0.0204,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 16,
+    "top_drivers": [
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 9",
+        "contribution": -0.0413,
+        "direction": "decreases"
+      },
+      {
+        "feature": "age",
+        "display": "Age: 43",
+        "contribution": -0.0313,
+        "direction": "decreases"
+      },
+      {
+        "feature": "medication_Penicillin",
+        "display": "Medication Penicillin: ",
+        "contribution": -0.0303,
+        "direction": "decreases"
+      },
+      {
+        "feature": "test_result_ord",
+        "display": "Test result severity: 2",
+        "contribution": -0.0287,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 14164.517336180292",
+        "contribution": -0.0265,
+        "direction": "decreases"
+      },
+      {
+        "feature": "insurance_provider_Medicare",
+        "display": "Insurance Provider Medicare: ",
+        "contribution": -0.021,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 9.558565933742443",
+        "contribution": -0.0203,
+        "direction": "decreases"
+      },
+      {
+        "feature": "gender_Male",
+        "display": "Gender Male: ",
+        "contribution": -0.02,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 17,
+    "top_drivers": [
+      {
+        "feature": "age",
+        "display": "Age: 81",
+        "contribution": -0.0556,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 9",
+        "contribution": -0.0384,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 24039.978197057007",
+        "contribution": -0.0316,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 10.087515078214699",
+        "contribution": -0.0314,
+        "direction": "decreases"
+      },
+      {
+        "feature": "blood_type_B-",
+        "display": "Blood Type B-: ",
+        "contribution": -0.0296,
+        "direction": "decreases"
+      },
+      {
+        "feature": "length_of_stay",
+        "display": "Length of stay: 20",
+        "contribution": -0.0275,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 0.960626412945958",
+        "contribution": -0.0242,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_dayofweek",
+        "display": "Admission Dayofweek: 1",
+        "contribution": -0.0235,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 18,
+    "top_drivers": [
+      {
+        "feature": "length_of_stay",
+        "display": "Length of stay: 28",
+        "contribution": -0.0651,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_dayofweek",
+        "display": "Admission Dayofweek: 0",
+        "contribution": -0.0588,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 32500.139258344127",
+        "contribution": -0.0334,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 1.2617179938701522",
+        "contribution": -0.0329,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 10.389030421806345",
+        "contribution": -0.0288,
+        "direction": "decreases"
+      },
+      {
+        "feature": "age",
+        "display": "Age: 41",
+        "contribution": -0.0282,
+        "direction": "decreases"
+      },
+      {
+        "feature": "is_long_stay",
+        "display": "Long stay (>75th percentile): 1",
+        "contribution": -0.0196,
+        "direction": "decreases"
+      },
+      {
+        "feature": "test_result_ord",
+        "display": "Test result severity: 0",
+        "contribution": -0.015,
+        "direction": "decreases"
+      }
+    ]
+  },
+  {
+    "row_index": 19,
+    "top_drivers": [
+      {
+        "feature": "age",
+        "display": "Age: 67",
+        "contribution": -0.04,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_amount",
+        "display": "Billing amount: 32159.14371046241",
+        "contribution": -0.0369,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_vs_condition_mean",
+        "display": "Billing vs. condition average: 1.261881812804146",
+        "contribution": -0.0351,
+        "direction": "decreases"
+      },
+      {
+        "feature": "admission_month",
+        "display": "Admission Month: 1",
+        "contribution": -0.0348,
+        "direction": "decreases"
+      },
+      {
+        "feature": "billing_log",
+        "display": "Billing amount (log): 10.378483191891824",
+        "contribution": -0.0331,
+        "direction": "decreases"
+      },
+      {
+        "feature": "test_result_ord",
+        "display": "Test result severity: 0",
+        "contribution": -0.028,
+        "direction": "decreases"
+      },
+      {
+        "feature": "length_of_stay",
+        "display": "Length of stay: 11",
+        "contribution": -0.0188,
+        "direction": "decreases"
+      },
+      {
+        "feature": "blood_type_O-",
+        "display": "Blood Type O-: ",
+        "contribution": -0.0166,
+        "direction": "decreases"
+      }
+    ]
+  }
+]
