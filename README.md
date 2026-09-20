@@ -1,7 +1,34 @@
 # ReAdmitIQ 🏥⚡
 > **Enterprise AI-Powered Hospital Readmission Risk Prediction & Clinical Decision Support Platform**
 
-ReAdmitIQ is a production-grade Clinical Decision Support (CDS) platform that identifies adult inpatients at high risk of unplanned 30-day post-discharge readmission. The platform combines real-time bedside risk scoring, game-theoretic explainable AI (TreeSHAP) factor attribution, interactive "what-if" counterfactual simulation, and role-specific workflows across physicians, patients, and health system executives.
+[![Live Public Deployment](https://img.shields.io/badge/Live_Deployment-Active-10B981?style=for-the-badge&logo=github)](https://parthpatil205455s.github.io/ReAdmitIQ/)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-ReAdmitIQ-181717?style=for-the-badge&logo=github)](https://github.com/ParthPatil205455s/ReAdmitIQ)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.109-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
+[![React 18](https://img.shields.io/badge/React-18.2-61DAFB?style=for-the-badge&logo=react)](https://react.dev)
+[![Python 3.11](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python)](https://python.org)
+
+---
+
+## 🌐 Live Public Access & Media Demos
+
+* **🌐 Live Web Application:** [https://parthpatil205455s.github.io/ReAdmitIQ/](https://parthpatil205455s.github.io/ReAdmitIQ/)
+* **📹 High-Res Interactive Demo Video (MP4):** [`docs/media/readmitiq_demo_video.mp4`](docs/media/readmitiq_demo_video.mp4)
+* **🎞 Animated GIF Demo Preview:** [`docs/media/readmitiq_demo_video.gif`](docs/media/readmitiq_demo_video.gif)
+* **🌐 Web Showcase Video Player:** [`docs/media/demo_player.html`](docs/media/demo_player.html)
+
+### 📹 System Walkthrough Preview:
+![ReAdmitIQ Interactive Demo Video](docs/media/readmitiq_demo_video.gif)
+
+---
+
+## 👥 Engineering & Clinical Team
+
+| Name | Role | Email |
+|---|---|---|
+| **Parth Patil** | Project Lead & Full-Stack Architect | `parthpatil205455@gmail.com` |
+| **Samiksha Wake** | ML Engineering & Explainable AI (SHAP) | `samikshawake22@gmail.com` |
+| **Harshita Shroff** | Backend API & Clinical Decision Engine | `harshitashroff6046@gmail.com` |
+| **Pranali Harugire** | Frontend UX/UI & Patient Recovery Portal | `pranaliharugire@gmail.com` |
 
 ---
 
@@ -90,6 +117,9 @@ ReAdmitIQ/
 │   ├── .env                        # Frontend environment configuration
 │   └── package.json                # Dependencies & Vite build configuration
 │
+├── docs/                           # Documentation & Video/Image Assets
+│   └── media/                      # 1080p MP4 Video, Animated GIF, HTML Player, Screenshots
+│
 └── ml/                             # Machine Learning Training Pipeline
     ├── data/                       # Kaggle healthcare dataset (raw & processed)
     ├── reports/                    # Evaluation curves, calibration charts, SHAP figures
@@ -168,17 +198,6 @@ cd backend
 python -m pytest tests/test_integration.py -v
 ```
 
-Tests verify:
-- Health check & database reachability
-- Model information & artifact loading
-- Real JWT authentication & authorization
-- Patient directory & detail pagination
-- Live ML model inference with TreeSHAP explanations
-- "What-if" counterfactual simulation
-- Hospital analytics aggregation
-- ReportLab clinical PDF generation
-- Administrative audit log retrieval
-
 ### ML Pipeline Tests (7/7 Passed)
 ```bash
 cd ml
@@ -190,21 +209,6 @@ python -m pytest tests/ -v
 cd frontend
 npm run build
 ```
-
----
-
-## 📊 Machine Learning Model Details
-
-- **Algorithm:** RandomForestClassifier with Isotonic Calibration (`CalibratedClassifierCV`, `cv=3`)
-- **Features (24 total):**
-  - **Numeric (11):** `age`, `length_of_stay`, `prior_admission_count`, `days_since_last_discharge`, `cumulative_los_prior`, `billing_amount`, `billing_log`, `billing_vs_condition_mean`, `test_result_ord`, `admission_month`, `admission_dayofweek`
-  - **Categorical (8):** `gender`, `blood_type`, `primary_condition`, `admission_type`, `medication`, `insurance_provider`, `age_band`, `los_band`
-  - **Binary (5):** `is_emergency`, `is_long_stay`, `is_high_risk_condition`, `had_prior_emergency`, `is_weekend_discharge`
-- **Leakage Controls:**
-  - Grouped cross-validation via `StratifiedGroupKFold` on `pseudo_patient_id`
-  - Preprocessor fit strictly inside CV folds
-  - Utilisation features calculated strictly from prior chronological episodes
-- **Explainability:** `shap.TreeExplainer` providing local Shapley waterfall attribution per prediction
 
 ---
 
