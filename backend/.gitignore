@@ -1,0 +1,12 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.DS_Store
+app/artifacts/*.pkl
+app/artifacts/*.json
+!app/artifacts/.gitkeep
+*.db

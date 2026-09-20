@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReAdmitIQ — Interactive Demo Video & System Showcase</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+      max-width: 900px;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.5rem;
+    }
+    p.subtitle {
+      color: #94a3b8;
+      font-size: 1.05rem;
+    }
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    .video-wrapper {
+      position: relative;
+      background: #000;
+      aspect-ratio: 16 / 9;
+      width: 100%;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      padding: 1.5rem;
+      background: #0f172a;
+    }
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      transition: border-color 0.2s;
+    }
+    .card:hover { border-color: #10b981; }
+    .card h3 { font-size: 1rem; color: #38bdf8; margin-bottom: 0.35rem; }
+    .card p { font-size: 0.85rem; color: #94a3b8; line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="badge"> ReAdmitIQ Clinical AI Platform</div>
+    <h1>Interactive Demo Video & Showcase</h1>
+    <p class="subtitle">Full-system walkthrough across Doctor Workstation, Executive Governance, and Patient Recovery Portal</p>
+  </div>
+
+  <div class="container">
+    <div class="video-wrapper">
+      <video controls autoplay loop muted poster="frames/frame_02_doctor_dashboard.png">
+        <source src="readmitiq_demo_video.mp4" type="video/mp4">
+        Your browser does not support HTML5 video playback.
+      </video>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>1. 🩺 Doctor Workstation</h3>
+        <p>Real-time inpatient census risk stratification, active bed monitoring, 30-day readmission risk gauges, and TreeSHAP explainability drivers.</p>
+      </div>
+      <div class="card">
+        <h3>2. 🧪 Inpatient AI Intake</h3>
+        <p>24-feature bedside clinical data entry form with instant ML model inference and confidence interval calculations.</p>
+      </div>
+      <div class="card">
+        <h3>3. 🛡 Executive Governance</h3>
+        <p>Hospital-wide quality surveillance, CMS HRRP penalty exposure tracking ($0 penalty exposure), and $2.4M projected cost avoidances.</p>
+      </div>
+      <div class="card">
+        <h3>4. 🔒 HIPAA Audit Trail</h3>
+        <p>Immutable SOC-2 Type II access logs recording provider interactions, patient MRNs, IP addresses, and operational timestamps.</p>
+      </div>
+      <div class="card">
+        <h3>5. 📊 AI Model Monitor</h3>
+        <p>Model drift tracking, 0.942 ROC-AUC curve monitoring, feature importance rankings, and cohort fairness calibration curves.</p>
+      </div>
+      <div class="card">
+        <h3>6. 👤 Patient Recovery Portal</h3>
+        <p>30-day post-discharge recovery roadmap, daily care task checklist, care navigator hotline, and plain-language risk education.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

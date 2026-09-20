@@ -1,0 +1,17 @@
+{
+  "model_name": "RandomForest",
+  "decision_threshold": 0.02442019508818562,
+  "precision_floor_used": 0.25,
+  "brier_score": 0.009260487510144806,
+  "n_train": 36385,
+  "n_test": 9092,
+  "class_prevalence": 0.008905600633287157,
+  "metrics": {
+    "roc_auc": 0.5694597012780909,
+    "pr_auc": 0.011647794889079913,
+    "precision": 0.03508771929824561,
+    "recall": 0.023529411764705882,
+    "f1": 0.028169014084507043,
+    "brier": 0.009260487510144806
+  }
+}
