@@ -1,5 +1,7 @@
 # ReAdmitIQ — Backend API
 
+> **Backend Lead:** Parth Patil
+
 Predictive Hospital Readmission Risk Platform.
 DSSA 24-Hour Hackathon 2026 · Domain 01 (MEDITECH) · PS 01.
 
