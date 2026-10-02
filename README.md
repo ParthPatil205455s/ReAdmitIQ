@@ -16,14 +16,14 @@
 
 ---
 
-## 👥 Engineering & Clinical Team
+## 👥 Team Contributions & Module Ownership
 
-| Name | Role | Email |
-|---|---|---|
-| **Parth Patil** | Project Lead & Full-Stack Architect | `parthpatil205455@gmail.com` |
-| **Samiksha Wake** | ML Engineering & Explainable AI (SHAP) | `samikshawake22@gmail.com` |
-| **Harshita Shroff** | Backend API & Clinical Decision Engine | `harshitashroff6046@gmail.com` |
-| **Pranali Harugire** | Frontend UX/UI & Patient Recovery Portal | `pranaliharugire@gmail.com` |
+| Team Member | Responsibility | Focus Area & Deliverables |
+|-------------|----------------|---------------------------|
+| **Parth Patil** | Backend Development | FastAPI application, 41 REST endpoints, OAuth2/JWT security, SQLAlchemy ORM models, DB seeders, and ReportLab PDF binder generation. |
+| **Samiksha Wake** | ML / AI | Data preprocessing, 24 clinical features, RandomForestClassifier with Isotonic Calibration, TreeSHAP driver attribution, and model artifacts. |
+| **Harshita Shroff** | Integration & DevOps | End-to-end service integration, `start.bat` launch automation, `integration/` suite, Docker environment, rate limiting, and 9/9 backend integration test suite. |
+| **Pranali Harugire** | Frontend Development | React 18 + Vite UI, Physician Clinical Workstation, SVG Risk Gauge, SHAP Waterfall chart, What-If counterfactual simulator, and Patient Recovery Portal. |
 
 ---
 
