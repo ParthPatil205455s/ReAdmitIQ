@@ -34,65 +34,67 @@ export function AuthProvider({ children }) {
 
   const login = useCallback(async (email, password) => {
     setIsLoading(true);
-    try {
-      // OAuth2 password flow — FastAPI expects form-encoded data
-      const params = new URLSearchParams();
-      params.append('username', email);
-      params.append('password', password);
-      const { data: tokenData } = await client.post('/auth/login', params, {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      });
 
-      // Fetch user profile
-      const { data: profile } = await client.get('/auth/me', {
-        headers: { Authorization: `Bearer ${tokenData.access_token}` },
-      });
+    const isStaticDeploy = typeof window !== 'undefined' && window.location.hostname.includes('github.io');
 
-      const userData = {
-        id: profile.id,
-        name: profile.full_name,
-        email: profile.email,
-        role: profile.role.toLowerCase(),
-        specialization: profile.specialization,
-        avatar: null,
-      };
+    if (!isStaticDeploy) {
+      try {
+        // OAuth2 password flow — FastAPI expects form-encoded data
+        const params = new URLSearchParams();
+        params.append('username', email);
+        params.append('password', password);
+        const { data: tokenData } = await client.post('/auth/login', params, {
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        });
 
-      _storeSession(tokenData, userData);
-      setIsLoading(false);
-      return userData;
-    } catch (err) {
-      // Fallback for static GitHub Pages deployment or offline backend
-      const lowerEmail = (email || '').toLowerCase();
-      let matchedRole = Object.keys(DEMO_CREDENTIALS).find(
-        (key) => DEMO_CREDENTIALS[key].email.toLowerCase() === lowerEmail
-      );
-      if (!matchedRole && (lowerEmail.includes('doctor') || lowerEmail.includes('chen'))) matchedRole = 'doctor';
-      if (!matchedRole && (lowerEmail.includes('patient') || lowerEmail.includes('wilson'))) matchedRole = 'patient';
-      if (!matchedRole && (lowerEmail.includes('admin') || lowerEmail.includes('torres') || lowerEmail.includes('exec'))) matchedRole = 'admin';
+        // Fetch user profile
+        const { data: profile } = await client.get('/auth/me', {
+          headers: { Authorization: `Bearer ${tokenData.access_token}` },
+        });
 
-      if (matchedRole || !err.response || err.message === 'Network Error' || import.meta.env.VITE_USE_MOCKS === 'true') {
-        const roleKey = matchedRole || 'doctor';
-        const demoUser = DEMO_CREDENTIALS[roleKey] || DEMO_CREDENTIALS.doctor;
-        const mockUserData = {
-          id: `demo-${roleKey}-001`,
-          name: roleKey === 'doctor' ? 'Dr. Sarah Chen' : roleKey === 'patient' ? 'James Wilson' : 'Marcus Torres',
-          email: email || demoUser.email,
-          role: roleKey,
-          specialization: roleKey === 'doctor' ? 'Cardiology' : 'Healthcare Operations',
+        const userData = {
+          id: profile.id,
+          name: profile.full_name,
+          email: profile.email,
+          role: profile.role.toLowerCase(),
+          specialization: profile.specialization,
           avatar: null,
         };
-        const mockToken = {
-          access_token: `mock-token-${roleKey}`,
-          refresh_token: `mock-refresh-${roleKey}`,
-        };
-        _storeSession(mockToken, mockUserData);
-        setIsLoading(false);
-        return mockUserData;
-      }
 
-      setIsLoading(false);
-      throw err;
+        _storeSession(tokenData, userData);
+        setIsLoading(false);
+        return userData;
+      } catch (err) {
+        console.warn('Backend authentication offline/unreachable, falling back to demo mode:', err);
+      }
     }
+
+    // Static GitHub Pages deployment or offline backend fallback
+    const lowerEmail = (email || '').toLowerCase();
+    let matchedRole = Object.keys(DEMO_CREDENTIALS).find(
+      (key) => DEMO_CREDENTIALS[key].email.toLowerCase() === lowerEmail
+    );
+    if (!matchedRole && (lowerEmail.includes('doctor') || lowerEmail.includes('chen'))) matchedRole = 'doctor';
+    if (!matchedRole && (lowerEmail.includes('patient') || lowerEmail.includes('wilson'))) matchedRole = 'patient';
+    if (!matchedRole && (lowerEmail.includes('admin') || lowerEmail.includes('torres') || lowerEmail.includes('exec'))) matchedRole = 'admin';
+
+    const roleKey = matchedRole || 'doctor';
+    const demoUser = DEMO_CREDENTIALS[roleKey] || DEMO_CREDENTIALS.doctor;
+    const mockUserData = {
+      id: `demo-${roleKey}-001`,
+      name: roleKey === 'doctor' ? 'Dr. Sarah Chen' : roleKey === 'patient' ? 'James Wilson' : 'Marcus Torres',
+      email: email || demoUser.email,
+      role: roleKey,
+      specialization: roleKey === 'doctor' ? 'Cardiology' : 'Healthcare Operations',
+      avatar: null,
+    };
+    const mockToken = {
+      access_token: `mock-token-${roleKey}`,
+      refresh_token: `mock-refresh-${roleKey}`,
+    };
+    _storeSession(mockToken, mockUserData);
+    setIsLoading(false);
+    return mockUserData;
   }, []);
 
   const demoLogin = useCallback(async (role) => {
