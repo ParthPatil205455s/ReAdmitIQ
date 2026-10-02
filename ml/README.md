@@ -1,4 +1,6 @@
-# ReAdmitIQ — ML Pipeline (Member 3 scope)
+# ReAdmitIQ — ML Training & Explainability Pipeline
+
+> **ML / AI Lead:** Samiksha Wake
 
 ## Setup
 ```bash
