@@ -43,10 +43,10 @@ export default function Timeline({ events = [], className }) {
                   <div className="flex-1 min-w-0 pt-1.5 flex justify-between space-x-4">
                     <div>
                       <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                        {event.title || event.action}
+                        {event.title || event.action || event.event}
                       </p>
                       <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                        {event.description || event.notes || event.details}
+                        {event.description || event.notes || event.details || event.detail}
                       </p>
                       {event.actor && (
                         <span className="text-[11px] text-slate-400 dark:text-slate-500 mt-1 block">

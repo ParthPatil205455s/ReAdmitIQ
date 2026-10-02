@@ -1,15 +1,17 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Search,
   Filter,
   Plus,
+  UserPlus,
   ArrowUpDown,
   ExternalLink,
   ChevronRight,
   Activity,
   Heart,
   Stethoscope,
+  RefreshCw,
 } from 'lucide-react';
 import PageHeader from '../../components/shared/PageHeader';
 import RiskBadge from '../../components/shared/RiskBadge';
@@ -17,29 +19,50 @@ import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
 import Pagination from '../../components/ui/Pagination';
+import AddPatientModal from '../../components/modals/AddPatientModal';
 import { fetchPatients } from '../../api/endpoints';
 
 export default function PatientList() {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [search, setSearch] = useState('');
   const [riskFilter, setRiskFilter] = useState('all');
   const [page, setPage] = useState(1);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const pageSize = 8;
 
-  useEffect(() => {
-    fetchPatients()
-      .then((data) => setPatients(data || []))
-      .finally(() => setLoading(false));
+  const loadPatients = useCallback(async (isRefresh = false) => {
+    if (isRefresh) setRefreshing(true);
+    else setLoading(true);
+    try {
+      const data = await fetchPatients();
+      setPatients(data || []);
+    } catch (err) {
+      console.error('Failed to load patients:', err);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
   }, []);
+
+  useEffect(() => {
+    loadPatients();
+  }, [loadPatients]);
+
+  const handlePatientCreated = (newPatient) => {
+    loadPatients(true);
+  };
 
   const filtered = useMemo(() => {
     return patients.filter((p) => {
-      const matchesSearch =
-        p.name.toLowerCase().includes(search.toLowerCase()) ||
-        p.mrn.toLowerCase().includes(search.toLowerCase()) ||
-        (p.primaryDiagnosis || p.condition || '').toLowerCase().includes(search.toLowerCase());
+      const nameMatch = (p.name || p.full_name || '').toLowerCase().includes(search.toLowerCase());
+      const mrnMatch = (p.mrn || '').toLowerCase().includes(search.toLowerCase());
+      const condMatch = (p.primaryDiagnosis || p.condition || p.primary_condition || '')
+        .toLowerCase()
+        .includes(search.toLowerCase());
 
+      const matchesSearch = nameMatch || mrnMatch || condMatch;
       const matchesRisk =
         riskFilter === 'all' || p.riskLevel?.toLowerCase() === riskFilter.toLowerCase();
 
@@ -60,12 +83,28 @@ export default function PatientList() {
           { label: 'Patients' },
         ]}
         actions={
-          <Link to="/doctor/assess/new">
-            <Button variant="primary" size="sm" className="gap-1.5">
-              <Plus className="w-4 h-4" />
-              <span>Assess New Inpatient</span>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => loadPatients(true)}
+              loading={refreshing}
+              className="gap-1.5"
+            >
+              <RefreshCw className="w-4 h-4" />
+              <span>Refresh</span>
             </Button>
-          </Link>
+
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => setIsAddModalOpen(true)}
+              className="gap-1.5 shadow-md shadow-brand/20"
+            >
+              <UserPlus className="w-4 h-4" />
+              <span>Add New Patient</span>
+            </Button>
+          </div>
         }
       />
 
@@ -123,7 +162,13 @@ export default function PatientList() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {paginated.length === 0 ? (
+              {loading ? (
+                <tr>
+                  <td colSpan={7} className="py-12 text-center text-slate-400">
+                    Loading patient worklist...
+                  </td>
+                </tr>
+              ) : paginated.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="py-12 text-center text-slate-400">
                     No patients found matching your search criteria.
@@ -137,7 +182,7 @@ export default function PatientList() {
                   >
                     <td className="py-3 px-4">
                       <div className="font-semibold text-slate-900 dark:text-white">
-                        {patient.name}
+                        {patient.name || patient.full_name}
                       </div>
                       <div className="text-[11px] text-slate-400 font-mono">
                         {patient.mrn}
@@ -148,31 +193,31 @@ export default function PatientList() {
                     </td>
                     <td className="py-3 px-4">
                       <span className="font-medium text-slate-800 dark:text-slate-200">
-                        {patient.primaryDiagnosis || patient.condition}
+                        {patient.primaryDiagnosis || patient.condition || patient.primary_condition}
                       </span>
                     </td>
                     <td className="py-3 px-4">
-                      <RiskBadge level={patient.riskLevel} size="sm" />
+                      <RiskBadge level={patient.riskLevel || 'low'} size="sm" />
                     </td>
                     <td className="py-3 px-4 font-mono font-bold text-slate-900 dark:text-white">
                       <div className="flex items-center gap-2">
-                        <span>{Math.round(patient.riskScore * 100)}%</span>
+                        <span>{Math.round((patient.riskScore || 0.15) * 100)}%</span>
                         <div className="w-16 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                           <div
                             className={`h-full rounded-full ${
-                              patient.riskScore > 0.6
+                              (patient.riskScore || 0.15) > 0.6
                                 ? 'bg-red-500'
-                                : patient.riskScore > 0.3
+                                : (patient.riskScore || 0.15) > 0.3
                                 ? 'bg-amber-500'
                                 : 'bg-emerald-500'
                             }`}
-                            style={{ width: `${Math.round(patient.riskScore * 100)}%` }}
+                            style={{ width: `${Math.round((patient.riskScore || 0.15) * 100)}%` }}
                           />
                         </div>
                       </div>
                     </td>
                     <td className="py-3 px-4 text-slate-500 dark:text-slate-400 text-[11px]">
-                      {patient.admissionDate || '2026-09-15'} ({patient.lengthOfStay || 3}d LOS)
+                      {patient.admissionDate || '2026-09-15'} ({patient.lengthOfStay || patient.length_of_stay || 3}d LOS)
                     </td>
                     <td className="py-3 px-4 text-right">
                       <div className="flex items-center justify-end gap-2">
@@ -209,6 +254,13 @@ export default function PatientList() {
           </div>
         )}
       </Card>
+
+      {/* Add New Patient Modal */}
+      <AddPatientModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onPatientCreated={handlePatientCreated}
+      />
     </div>
   );
 }

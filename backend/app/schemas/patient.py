@@ -50,6 +50,16 @@ class PatientCreate(PatientBase):
         description="Medical record number. Generated when omitted.",
     )
     linked_user_id: uuid.UUID | None = None
+    admission_type: str | None = Field(default="Elective", max_length=20)
+    length_of_stay: int | None = Field(default=3, ge=0, le=365)
+    medication: str | None = Field(default=None, max_length=120)
+    test_result: str | None = Field(default="Normal", max_length=20)
+    billing_amount: float | None = Field(default=0.0, ge=0)
+    hospital: str | None = Field(default=None, max_length=120)
+    attending_doctor: str | None = Field(default=None, max_length=120)
+    followup_scheduled: bool = False
+    auto_predict: bool = True
+
 
 
 class PatientUpdate(PatientBase):

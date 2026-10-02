@@ -154,9 +154,9 @@ export default function PatientDashboard() {
                   >
                     {task.completed && <CheckCircle2 className="w-3.5 h-3.5" />}
                   </div>
-                  <span className="text-xs font-semibold">{task.title}</span>
+                  <span className="text-xs font-semibold">{task.title || task.task}</span>
                 </div>
-                <span className="text-[11px] text-slate-400 font-mono">{task.time}</span>
+                <span className="text-[11px] text-slate-400 font-mono">{task.time || task.dueDate}</span>
               </div>
             ))}
           </div>
@@ -183,14 +183,14 @@ export default function PatientDashboard() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
                     <h4 className="text-xs font-bold text-slate-900 dark:text-white">
-                      {appt.type}
+                      {appt.title || appt.type}
                     </h4>
-                    <span className="text-[10px] font-semibold text-teal-600 bg-teal-50 dark:bg-teal-950/40 px-2 py-0.5 rounded">
+                    <span className="text-[10px] font-semibold text-teal-600 bg-teal-50 dark:bg-teal-950/40 px-2 py-0.5 rounded uppercase">
                       {appt.status}
                     </span>
                   </div>
                   <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
-                    {appt.provider} · {appt.location}
+                    {appt.department || appt.provider || 'Care Team'} · {appt.type || appt.location || 'Clinic'}
                   </p>
                   <p className="text-[11px] text-slate-400 mt-1 font-mono">
                     {appt.date} at {appt.time}

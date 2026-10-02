@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Users,
@@ -6,6 +6,7 @@ import {
   Activity,
   TrendingDown,
   Plus,
+  UserPlus,
   ArrowUpRight,
   Filter,
   Search,
@@ -19,6 +20,7 @@ import RiskDistribution from '../../components/charts/RiskDistribution';
 import TrendChart from '../../components/charts/TrendChart';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
+import AddPatientModal from '../../components/modals/AddPatientModal';
 import {
   fetchKPIStats,
   fetchPatients,
@@ -35,28 +37,30 @@ export default function DoctorDashboard() {
   const [trendData, setTrendData] = useState([]);
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  const loadDashboardData = useCallback(async () => {
+    try {
+      const [pts, kpiData, dist, trends, acts] = await Promise.all([
+        fetchPatients(),
+        fetchKPIStats(),
+        fetchRiskDistribution(),
+        fetchTrendData(),
+        fetchRecentActivity(),
+      ]);
+      setPatients(pts || []);
+      setKpis(kpiData);
+      setRiskDist(dist || []);
+      setTrendData(trends || []);
+      setActivities(acts || []);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    async function load() {
-      try {
-        const [pts, kpiData, dist, trends, acts] = await Promise.all([
-          fetchPatients(),
-          fetchKPIStats(),
-          fetchRiskDistribution(),
-          fetchTrendData(),
-          fetchRecentActivity(),
-        ]);
-        setPatients(pts || []);
-        setKpis(kpiData);
-        setRiskDist(dist || []);
-        setTrendData(trends || []);
-        setActivities(acts || []);
-      } finally {
-        setLoading(false);
-      }
-    }
-    load();
-  }, []);
+    loadDashboardData();
+  }, [loadDashboardData]);
 
   const highRiskPatients = patients.filter((p) => p.riskLevel === 'high' || p.riskLevel === 'critical');
 
@@ -72,12 +76,15 @@ export default function DoctorDashboard() {
                 View All Patients
               </Button>
             </Link>
-            <Link to="/doctor/assess/new">
-              <Button variant="primary" size="sm" className="gap-1.5">
-                <Plus className="w-4 h-4" />
-                <span>New Assessment</span>
-              </Button>
-            </Link>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => setIsAddModalOpen(true)}
+              className="gap-1.5 shadow-md shadow-brand/20"
+            >
+              <UserPlus className="w-4 h-4" />
+              <span>Add New Patient</span>
+            </Button>
           </div>
         }
       />
@@ -242,6 +249,12 @@ export default function DoctorDashboard() {
           <Timeline events={activities} />
         </Card>
       </div>
+
+      <AddPatientModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onPatientCreated={loadDashboardData}
+      />
     </div>
   );
 }

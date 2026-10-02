@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Sparkles,
@@ -8,36 +8,66 @@ import {
   Heart,
   UserCheck,
   CheckCircle,
+  Stethoscope,
 } from 'lucide-react';
 import PageHeader from '../../components/shared/PageHeader';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
-import { runAssessment } from '../../api/endpoints';
+import { fetchPatient, runAssessment } from '../../api/endpoints';
+
+const PRIMARY_CONDITIONS = [
+  'Diabetes',
+  'Hypertension',
+  'Asthma',
+  'Cancer',
+  'Obesity',
+  'Arthritis',
+];
+const ADMISSION_TYPES = ['Elective', 'Emergency', 'Urgent'];
+const TEST_RESULTS = ['Normal', 'Abnormal', 'Inconclusive'];
 
 export default function NewAssessment() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
+  const [loadingPatient, setLoadingPatient] = useState(false);
 
   const [formData, setFormData] = useState({
-    patient_name: 'Eleanor Vance',
-    mrn: 'MRN-847291',
-    age: 72,
+    patient_name: '',
+    mrn: '',
+    age: 65,
     gender: 'Female',
-    diagnosis: 'Congestive Heart Failure (NYHA Class III)',
-    length_of_stay: 5,
-    systolic_bp: 142,
-    diastolic_bp: 88,
-    heart_rate: 84,
-    spo2: 95,
-    hba1c: 8.6,
-    creatinine: 1.4,
-    prior_admissions: 2,
-    active_meds_count: 9,
-    lives_alone: true,
-    has_home_support: false,
+    primary_condition: 'Diabetes',
+    admission_type: 'Elective',
+    length_of_stay: 4,
+    test_result: 'Normal',
+    medication: 'Aspirin',
+    billing_amount: 10000,
+    prior_admission_count: 1,
+    days_since_last_discharge: 30,
+    followup_scheduled: false,
   });
+
+  useEffect(() => {
+    if (id && id !== 'new') {
+      setLoadingPatient(true);
+      fetchPatient(id)
+        .then((p) => {
+          if (p) {
+            setFormData((prev) => ({
+              ...prev,
+              patient_name: p.name || p.full_name || '',
+              mrn: p.mrn || '',
+              age: p.age || 65,
+              gender: p.gender || 'Female',
+              primary_condition: p.primaryDiagnosis || p.primary_condition || 'Diabetes',
+            }));
+          }
+        })
+        .finally(() => setLoadingPatient(false));
+    }
+  }, [id]);
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -48,8 +78,13 @@ export default function NewAssessment() {
     setSubmitting(true);
     try {
       const pred = await runAssessment(id || 'new', formData);
-      // Navigate to prediction result
-      navigate(`/doctor/predictions/${pred.id}`);
+      if (pred?.id) {
+        navigate(`/doctor/predictions/${pred.id}`);
+      } else {
+        navigate(`/doctor/patients/${id}`);
+      }
+    } catch (err) {
+      console.error('Failed to run assessment:', err);
     } finally {
       setSubmitting(false);
     }
@@ -69,11 +104,11 @@ export default function NewAssessment() {
 
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Clinical Data Input Form */}
+          {/* Main Form Inputs */}
           <Card className="p-6 lg:col-span-2 space-y-6">
             <div>
               <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">
-                Patient Demographics & Primary Admission
+                Patient Demographics & Admission Profile
               </h3>
               <p className="text-xs text-slate-500">Essential identifiers for EHR record synchronization</p>
             </div>
@@ -88,6 +123,7 @@ export default function NewAssessment() {
                   value={formData.patient_name}
                   onChange={(e) => handleChange('patient_name', e.target.value)}
                   className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
+                  placeholder="Patient Name"
                   required
                 />
               </div>
@@ -101,7 +137,7 @@ export default function NewAssessment() {
                   value={formData.mrn}
                   onChange={(e) => handleChange('mrn', e.target.value)}
                   className="w-full px-3 py-2 text-xs font-mono bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
-                  required
+                  placeholder="MRN-XXXXXX"
                 />
               </div>
 
@@ -111,8 +147,10 @@ export default function NewAssessment() {
                 </label>
                 <input
                   type="number"
+                  min="0"
+                  max="120"
                   value={formData.age}
-                  onChange={(e) => handleChange('age', parseInt(e.target.value))}
+                  onChange={(e) => handleChange('age', parseInt(e.target.value) || 0)}
                   className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
                   required
                 />
@@ -120,136 +158,158 @@ export default function NewAssessment() {
 
               <div>
                 <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                  Length of Current Stay (Days)
+                  Primary Condition
                 </label>
-                <input
-                  type="number"
-                  value={formData.length_of_stay}
-                  onChange={(e) => handleChange('length_of_stay', parseInt(e.target.value))}
+                <select
+                  value={formData.primary_condition}
+                  onChange={(e) => handleChange('primary_condition', e.target.value)}
                   className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
-                  required
+                >
+                  {PRIMARY_CONDITIONS.map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="border-t border-slate-100 dark:border-slate-800 pt-5 space-y-4">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">
+                Clinical Markers & Admission Parameters
+              </h3>
+              <p className="text-xs text-slate-500 mb-4">Features weighted in calibrated Random Forest + TreeSHAP pipeline</p>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                    Admission Type
+                  </label>
+                  <select
+                    value={formData.admission_type}
+                    onChange={(e) => handleChange('admission_type', e.target.value)}
+                    className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
+                  >
+                    {ADMISSION_TYPES.map((at) => (
+                      <option key={at} value={at}>
+                        {at}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                    Length of Stay (Days)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="365"
+                    value={formData.length_of_stay}
+                    onChange={(e) => handleChange('length_of_stay', parseInt(e.target.value) || 0)}
+                    className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                    Lab Test Result
+                  </label>
+                  <select
+                    value={formData.test_result}
+                    onChange={(e) => handleChange('test_result', e.target.value)}
+                    className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
+                  >
+                    {TEST_RESULTS.map((tr) => (
+                      <option key={tr} value={tr}>
+                        {tr}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                    Prior Admission Count
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={formData.prior_admission_count}
+                    onChange={(e) => handleChange('prior_admission_count', parseInt(e.target.value) || 0)}
+                    className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                    Days Since Last Discharge
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={formData.days_since_last_discharge}
+                    onChange={(e) => handleChange('days_since_last_discharge', parseInt(e.target.value) || 0)}
+                    className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                    Estimated Billing ($)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="100"
+                    value={formData.billing_amount}
+                    onChange={(e) => handleChange('billing_amount', parseFloat(e.target.value) || 0)}
+                    className="w-full px-3 py-2 text-xs font-mono bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-slate-100 dark:border-slate-800 pt-5">
+              <div className="flex items-center gap-2 text-xs">
+                <input
+                  type="checkbox"
+                  id="assess-followup"
+                  checked={formData.followup_scheduled}
+                  onChange={(e) => handleChange('followup_scheduled', e.target.checked)}
+                  className="accent-brand rounded w-4 h-4"
                 />
-              </div>
-            </div>
-
-            <div className="border-t border-slate-100 dark:border-slate-800 pt-5">
-              <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">
-                Vital Signs & Critical Biomarkers
-              </h3>
-              <p className="text-xs text-slate-500 mb-4">Laboratory assays heavily weighted in XGBoost feature nodes</p>
-
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                <div>
-                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                    Systolic BP
-                  </label>
-                  <input
-                    type="number"
-                    value={formData.systolic_bp}
-                    onChange={(e) => handleChange('systolic_bp', parseInt(e.target.value))}
-                    className="w-full px-3 py-2 text-xs font-mono bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                    Heart Rate (BPM)
-                  </label>
-                  <input
-                    type="number"
-                    value={formData.heart_rate}
-                    onChange={(e) => handleChange('heart_rate', parseInt(e.target.value))}
-                    className="w-full px-3 py-2 text-xs font-mono bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                    HbA1c (%)
-                  </label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    value={formData.hba1c}
-                    onChange={(e) => handleChange('hba1c', parseFloat(e.target.value))}
-                    className="w-full px-3 py-2 text-xs font-mono bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                    Serum Creatinine
-                  </label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    value={formData.creatinine}
-                    onChange={(e) => handleChange('creatinine', parseFloat(e.target.value))}
-                    className="w-full px-3 py-2 text-xs font-mono bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="border-t border-slate-100 dark:border-slate-800 pt-5">
-              <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">
-                Social Determinants & Prior History (SDOH)
-              </h3>
-              <p className="text-xs text-slate-500 mb-4">Post-discharge environment & utilization risk factors</p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                <div className="flex items-center gap-2 p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-                  <input
-                    type="checkbox"
-                    id="alone"
-                    checked={formData.lives_alone}
-                    onChange={(e) => handleChange('lives_alone', e.target.checked)}
-                    className="accent-teal-600 rounded"
-                  />
-                  <label htmlFor="alone" className="text-slate-800 dark:text-slate-200 font-medium">
-                    Patient Lives Alone
-                  </label>
-                </div>
-
-                <div className="flex items-center gap-2 p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-                  <input
-                    type="checkbox"
-                    id="support"
-                    checked={formData.has_home_support}
-                    onChange={(e) => handleChange('has_home_support', e.target.checked)}
-                    className="accent-teal-600 rounded"
-                  />
-                  <label htmlFor="support" className="text-slate-800 dark:text-slate-200 font-medium">
-                    Has Designated Primary Caregiver
-                  </label>
-                </div>
+                <label htmlFor="assess-followup" className="text-slate-800 dark:text-slate-200 font-medium">
+                  Follow-up Appointment Confirmed
+                </label>
               </div>
             </div>
           </Card>
 
-          {/* Right Summary & Submit Card */}
+          {/* Right Action Box */}
           <Card className="p-6 space-y-6 flex flex-col justify-between">
             <div className="space-y-4">
-              <div className="flex items-center gap-2 text-teal-600 dark:text-teal-400 font-bold text-sm">
+              <div className="flex items-center gap-2 text-brand font-bold text-sm">
                 <Sparkles className="w-5 h-5" />
-                <span>Model Pipeline Status</span>
+                <span>Production ML Pipeline</span>
               </div>
               <p className="text-xs text-slate-500 leading-relaxed">
-                When you click "Compute Risk Score", this clinical payload will be processed by our calibrated XGBoost v2.4 model.
+                Submitting this payload will trigger feature orchestration through our Random Forest + TreeSHAP pipeline.
               </p>
 
               <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-500">Pipeline Latency:</span>
-                  <span className="font-mono text-slate-800 dark:text-slate-200">~42ms</span>
+                  <span className="text-slate-500">Pipeline Model:</span>
+                  <span className="font-mono text-slate-800 dark:text-slate-200">readmitiq-rf-v1</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-500">SHAP Explanations:</span>
-                  <span className="text-emerald-500 font-semibold">Enabled</span>
+                  <span className="text-slate-500">SHAP Waterfall:</span>
+                  <span className="text-emerald-500 font-semibold">Active</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-500">CMS Risk Model:</span>
-                  <span className="font-mono text-slate-800 dark:text-slate-200">HWR v12.1</span>
+                  <span className="text-slate-500">Rule Engine:</span>
+                  <span className="font-mono text-slate-800 dark:text-slate-200">v1.0.0</span>
                 </div>
               </div>
             </div>
@@ -259,9 +319,9 @@ export default function NewAssessment() {
               variant="primary"
               size="lg"
               loading={submitting}
-              className="w-full gap-2 text-sm justify-center shadow-lg shadow-teal-500/20"
+              className="w-full gap-2 text-sm justify-center shadow-lg shadow-brand/20"
             >
-              <span>Compute Risk & SHAP Waterfall</span>
+              <span>Compute Risk & Generate SHAP</span>
               <ArrowRight className="w-4 h-4" />
             </Button>
           </Card>

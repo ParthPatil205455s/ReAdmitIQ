@@ -77,12 +77,12 @@ export default function CarePlan() {
                       item.completed ? 'line-through text-slate-400' : 'text-slate-900 dark:text-white'
                     }`}
                   >
-                    {item.title}
+                    {item.title || item.task}
                   </span>
-                  <span className="text-xs text-slate-500">{item.description || item.freq}</span>
+                  <span className="text-xs text-slate-500">{item.description || item.category || item.freq}</span>
                 </div>
               </div>
-              <span className="text-xs font-mono text-slate-400">{item.time}</span>
+              <span className="text-xs font-mono text-slate-400">{item.time || item.dueDate}</span>
             </div>
           ))}
         </div>

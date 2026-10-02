@@ -76,6 +76,43 @@ def test_patient_list_and_detail(client, doctor_headers):
     assert "full_name" in p
 
 
+def test_create_new_patient_workflow(client, doctor_headers):
+    payload = {
+        "full_name": "Test Workflow Patient",
+        "age": 68,
+        "gender": "Female",
+        "blood_type": "O+",
+        "primary_condition": "Diabetes",
+        "insurance_provider": "Medicare",
+        "admission_type": "Emergency",
+        "length_of_stay": 6,
+        "medication": "Insulin",
+        "test_result": "Abnormal",
+        "billing_amount": 15400.0,
+        "followup_scheduled": True
+    }
+    create_res = client.post("/api/v1/patients", json=payload, headers=doctor_headers)
+    assert create_res.status_code == 201, f"Patient creation failed: {create_res.text}"
+    p = create_res.json()
+    assert p["full_name"] == "Test Workflow Patient"
+    patient_id = p["id"]
+
+    # Verify patient history
+    hist_res = client.get(f"/api/v1/patients/{patient_id}/history", headers=doctor_headers)
+    assert hist_res.status_code == 200
+    hist = hist_res.json()
+    assert hist["total_admissions"] == 1
+    assert hist["admissions"][0]["admission_type"] == "Emergency"
+
+    # Verify latest prediction
+    pred_res = client.get(f"/api/v1/predictions?patient_id={patient_id}", headers=doctor_headers)
+    assert pred_res.status_code == 200
+    preds = pred_res.json()["items"]
+    assert len(preds) == 1
+    assert preds[0]["risk_band"] in ["LOW", "MEDIUM", "HIGH"]
+
+
+
 def test_prediction_creation_and_explanation(client, doctor_headers):
     patients_res = client.get("/api/v1/patients", headers=doctor_headers)
     patient_id = patients_res.json()["items"][0]["id"]

@@ -56,13 +56,102 @@ export async function fetchPatient(id) {
     return {
       ...data,
       name: data.full_name,
+      primaryDiagnosis: data.primary_condition,
+      condition: data.primary_condition,
       conditions: [data.primary_condition],
       insuranceProvider: data.insurance_provider,
+      insurance: data.insurance_provider,
+      riskScore: data.latest_risk_probability ?? 0.15,
+      riskLevel: (data.latest_risk_band || 'low').toLowerCase(),
     };
   } catch (err) {
     console.warn('fetchPatient fallback to mock:', err.message);
     const mocks = await getMocks();
     return mocks.patients.find((p) => p.id === id) || mocks.patients[0];
+  }
+}
+
+export async function createPatient(patientData) {
+  const isMockToken =
+    typeof localStorage !== 'undefined' &&
+    localStorage.getItem('readmitiq-token')?.startsWith('mock-');
+  if (USE_MOCKS || isMockToken) {
+    await sleep(400);
+    const mocks = await getMocks();
+    const newP = {
+      id: 'pat-' + Date.now(),
+      mrn: patientData.mrn || 'MRN-' + Math.floor(100000 + Math.random() * 900000),
+      name: patientData.full_name,
+      full_name: patientData.full_name,
+      age: parseInt(patientData.age),
+      gender: patientData.gender,
+      blood_type: patientData.blood_type || 'O+',
+      primary_condition: patientData.primary_condition,
+      condition: patientData.primary_condition,
+      primaryDiagnosis: patientData.primary_condition,
+      insurance_provider: patientData.insurance_provider || 'Medicare',
+      insurance: patientData.insurance_provider || 'Medicare',
+      contact_email: patientData.contact_email,
+      riskScore: 0.28,
+      riskLevel: 'medium',
+      admissionDate: new Date().toISOString().split('T')[0],
+      lengthOfStay: patientData.length_of_stay || 3,
+    };
+    mocks.patients.unshift(newP);
+    return newP;
+  }
+
+  const payload = {
+    full_name: patientData.full_name,
+    age: parseInt(patientData.age),
+    gender: patientData.gender,
+    blood_type: patientData.blood_type || null,
+    primary_condition: patientData.primary_condition,
+    insurance_provider: patientData.insurance_provider || null,
+    contact_email: patientData.contact_email || null,
+    mrn: patientData.mrn || null,
+    admission_type: patientData.admission_type || 'Elective',
+    length_of_stay: patientData.length_of_stay !== undefined ? parseInt(patientData.length_of_stay) : 3,
+    medication: patientData.medication || null,
+    test_result: patientData.test_result || 'Normal',
+    billing_amount: patientData.billing_amount !== undefined ? parseFloat(patientData.billing_amount) : 0,
+    hospital: patientData.hospital || null,
+    attending_doctor: patientData.attending_doctor || null,
+    followup_scheduled: Boolean(patientData.followup_scheduled),
+    auto_predict: true,
+  };
+
+  const { data } = await client.post('/patients', payload);
+  return {
+    ...data,
+    name: data.full_name,
+    primaryDiagnosis: data.primary_condition,
+    condition: data.primary_condition,
+    conditions: [data.primary_condition],
+    insuranceProvider: data.insurance_provider,
+    insurance: data.insurance_provider,
+    riskScore: data.latest_risk_probability ?? 0.15,
+    riskLevel: (data.latest_risk_band || 'low').toLowerCase(),
+  };
+}
+
+export async function fetchLatestPatientPrediction(patientId) {
+  const isMockToken =
+    typeof localStorage !== 'undefined' &&
+    localStorage.getItem('readmitiq-token')?.startsWith('mock-');
+  if (USE_MOCKS || isMockToken) {
+    const mocks = await getMocks();
+    return mocks.predictionResult;
+  }
+  try {
+    const { data } = await client.get('/predictions', { params: { patient_id: patientId, size: 1 } });
+    if (data.items && data.items.length > 0) {
+      return await fetchPrediction(data.items[0].id);
+    }
+    return await runAssessment(patientId, {});
+  } catch (err) {
+    console.warn('fetchLatestPatientPrediction error:', err.message);
+    return null;
   }
 }
 

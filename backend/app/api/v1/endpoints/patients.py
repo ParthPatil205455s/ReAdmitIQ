@@ -5,7 +5,7 @@ from __future__ import annotations
 import csv
 import io
 import uuid
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from fastapi import APIRouter, Depends, File, Query, Request, UploadFile, status
 from sqlalchemy import func
@@ -32,7 +32,7 @@ from app.schemas.patient import (
     PatientOut,
     PatientUpdate,
 )
-from app.services import audit_service
+from app.services import audit_service, prediction_service
 
 router = APIRouter(prefix="/patients", tags=["Patients"])
 
@@ -85,7 +85,19 @@ def create_patient(
     mrn = payload.mrn or generate_mrn(db)
     if db.query(Patient.id).filter(Patient.mrn == mrn).first():
         raise ConflictError("That MRN already exists.", code="MRN_TAKEN")
-    data = payload.model_dump(exclude={"mrn"})
+
+    adm_fields = {
+        "admission_type",
+        "length_of_stay",
+        "medication",
+        "test_result",
+        "billing_amount",
+        "hospital",
+        "attending_doctor",
+        "followup_scheduled",
+        "auto_predict",
+    }
+    data = payload.model_dump(exclude={"mrn"}.union(adm_fields))
     patient = Patient(
         mrn=mrn,
         created_by=user.id,
@@ -93,6 +105,49 @@ def create_patient(
     )
     db.add(patient)
     db.flush()
+
+    admission = None
+    if payload.admission_type or payload.length_of_stay is not None:
+        adm_type = payload.admission_type or "Elective"
+        los = payload.length_of_stay if payload.length_of_stay is not None else 3
+        today = date.today()
+        discharged = today
+        admitted = today - timedelta(days=los) if los > 0 else today
+
+        admission = Admission(
+            patient_id=patient.id,
+            admission_date=admitted,
+            discharge_date=discharged,
+            length_of_stay=los,
+            admission_type=adm_type,
+            medication=payload.medication,
+            test_result=payload.test_result or "Normal",
+            billing_amount=payload.billing_amount,
+            hospital=payload.hospital,
+            attending_doctor=payload.attending_doctor,
+            followup_scheduled=payload.followup_scheduled,
+        )
+        db.add(admission)
+        db.flush()
+
+    if payload.auto_predict:
+        try:
+            features = prediction_service.features_for(db, patient, admission)
+            probability, band, explanation, recommendations = prediction_service.score(features)
+            prediction_service.persist(
+                db,
+                patient=patient,
+                admission=admission,
+                features=features,
+                probability=probability,
+                band=band,
+                explanation=explanation,
+                recommendations=recommendations,
+                created_by=user.id,
+            )
+        except Exception as exc:
+            pass
+
     audit_service.record(
         db,
         user_id=user.id,
