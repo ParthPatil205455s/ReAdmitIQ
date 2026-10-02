@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import logging
 from typing import Any
+import numpy as np
 
 from app.services.ml_service import ml_service
 
@@ -37,32 +38,32 @@ FEATURE_DISPLAY: dict[str, str] = {
 _STUB_DRIVERS: list[dict[str, Any]] = [
     {
         "feature": "prior_admission_count",
-        "display": "3 prior admissions",
-        "contribution": 0.19,
+        "display": "Prior admission history",
+        "contribution": 0.035,
         "direction": "increases",
     },
     {
         "feature": "admission_type_Emergency",
-        "display": "Emergency admission",
-        "contribution": 0.14,
+        "display": "Emergency admission route",
+        "contribution": 0.028,
         "direction": "increases",
     },
     {
         "feature": "length_of_stay",
-        "display": "Stay of 14 days",
-        "contribution": 0.09,
+        "display": "Length of stay",
+        "contribution": 0.018,
         "direction": "increases",
     },
     {
         "feature": "age",
-        "display": "Age 67",
-        "contribution": 0.06,
+        "display": "Patient age profile",
+        "contribution": 0.012,
         "direction": "increases",
     },
     {
         "feature": "test_result_Normal",
-        "display": "Normal test results",
-        "contribution": -0.05,
+        "display": "Normal test results at discharge",
+        "contribution": -0.025,
         "direction": "decreases",
     },
 ]
@@ -83,7 +84,7 @@ def explain(
 ) -> dict[str, Any]:
     """Return base value, ranked drivers and the generated narrative."""
     if ml_service.stub:
-        base = 0.18
+        base = 0.11
         drivers = [dict(d) for d in _STUB_DRIVERS]
     else:
         frame = ml_service.to_frame(features)

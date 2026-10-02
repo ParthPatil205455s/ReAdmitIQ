@@ -42,7 +42,7 @@ def risk_distribution(
 
 @router.get("/by-condition", response_model=ByCondition, summary="Risk by condition")
 def by_condition(
-    db: Session = Depends(get_db), _: User = Depends(require_role(Role.ADMIN))
+    db: Session = Depends(get_db), _: User = Depends(require_role(Role.DOCTOR, Role.ADMIN))
 ) -> ByCondition:
     return ByCondition(**analytics_service.by_condition(db))
 
@@ -53,7 +53,7 @@ def by_condition(
     summary="Risk by admission route",
 )
 def by_admission_type(
-    db: Session = Depends(get_db), _: User = Depends(require_role(Role.ADMIN))
+    db: Session = Depends(get_db), _: User = Depends(require_role(Role.DOCTOR, Role.ADMIN))
 ) -> ByAdmissionType:
     return ByAdmissionType(**analytics_service.by_admission_type(db))
 
@@ -62,7 +62,7 @@ def by_admission_type(
 def trend(
     days: int = Query(default=30, ge=1, le=365),
     db: Session = Depends(get_db),
-    _: User = Depends(require_role(Role.ADMIN)),
+    _: User = Depends(require_role(Role.DOCTOR, Role.ADMIN)),
 ) -> Trend:
     return Trend(**analytics_service.trend(db, days=days))
 
@@ -71,6 +71,6 @@ def trend(
     "/top-drivers", response_model=TopDrivers, summary="Population-level risk drivers"
 )
 def top_drivers(
-    db: Session = Depends(get_db), _: User = Depends(require_role(Role.ADMIN))
+    db: Session = Depends(get_db), _: User = Depends(require_role(Role.DOCTOR, Role.ADMIN))
 ) -> TopDrivers:
     return TopDrivers(**analytics_service.top_drivers(db))

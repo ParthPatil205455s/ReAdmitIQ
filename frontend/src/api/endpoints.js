@@ -126,8 +126,17 @@ export async function runAssessment(patientId, assessmentData) {
     return { ...mocks.predictionResult, patientId, timestamp: new Date().toISOString() };
   }, 1500);
   if (m) return m;
+
+  let targetId = patientId;
+  if (!targetId || targetId === 'new' || typeof targetId !== 'string' || targetId.length < 30) {
+    const list = await fetchPatients();
+    if (list && list.length > 0) {
+      targetId = list[0].id;
+    }
+  }
+
   const { data } = await client.post('/predictions', {
-    patient_id: patientId,
+    patient_id: targetId,
     feature_overrides: assessmentData,
   });
   return {

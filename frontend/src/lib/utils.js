@@ -12,8 +12,10 @@ export function sleep(ms) {
 
 /** Format a probability as a percentage */
 export function formatPercent(value, decimals = 0) {
-  if (value == null) return '—';
-  return `${(value * 100).toFixed(decimals)}%`;
+  if (value == null || isNaN(value)) return '—';
+  const num = Number(value);
+  const pct = num > 1 ? num : num * 100;
+  return `${pct.toFixed(decimals)}%`;
 }
 
 export function formatPercentage(value, decimals = 0) {

@@ -9,15 +9,10 @@
 
 ---
 
-## 🌐 Live Public Access & Media Demos
+## 🌐 Live Public Access & Deployment
 
 * **🌐 Live Web Application:** [https://parthpatil205455s.github.io/ReAdmitIQ/](https://parthpatil205455s.github.io/ReAdmitIQ/)
-* **📹 High-Res Interactive Demo Video (MP4):** [`docs/media/readmitiq_demo_video.mp4`](docs/media/readmitiq_demo_video.mp4)
-* **🎞 Animated GIF Demo Preview:** [`docs/media/readmitiq_demo_video.gif`](docs/media/readmitiq_demo_video.gif)
-* **🌐 Web Showcase Video Player:** [`docs/media/demo_player.html`](docs/media/demo_player.html)
-
-### 📹 System Walkthrough Preview:
-![ReAdmitIQ Interactive Demo Video](docs/media/readmitiq_demo_video.gif)
+* **⚡ Interactive API Swagger Docs:** `http://localhost:8000/docs`
 
 ---
 
@@ -116,9 +111,6 @@ ReAdmitIQ/
 │   │   └── routes/                 # ProtectedRoute & AppRouter
 │   ├── .env                        # Frontend environment configuration
 │   └── package.json                # Dependencies & Vite build configuration
-│
-├── docs/                           # Documentation & Video/Image Assets
-│   └── media/                      # 1080p MP4 Video, Animated GIF, HTML Player, Screenshots
 │
 └── ml/                             # Machine Learning Training Pipeline
     ├── data/                       # Kaggle healthcare dataset (raw & processed)

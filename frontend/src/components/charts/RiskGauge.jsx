@@ -3,29 +3,29 @@ import { motion } from 'framer-motion';
 import { cn, formatPercentage, getRiskLevel, getRiskLabel } from '../../lib/utils';
 
 export default function RiskGauge({ score = 0, size = 200, animated = true, className }) {
-  const [displayScore, setDisplayScore] = useState(animated ? 0 : score);
+  const normScore = score > 1 ? score / 100 : score;
+  const [displayScore, setDisplayScore] = useState(animated ? 0 : normScore);
   const requestRef = useRef();
   const startTimeRef = useRef();
 
-  const pct = displayScore * 100;
-  const level = getRiskLevel(displayScore);
+  const level = getRiskLevel(normScore);
   const label = getRiskLabel(level);
 
   // Animate the score counter
   useEffect(() => {
-    if (!animated) { setDisplayScore(score); return; }
-    const duration = 1500;
+    if (!animated) { setDisplayScore(normScore); return; }
+    const duration = 1200;
     startTimeRef.current = Date.now();
     const animate = () => {
       const elapsed = Date.now() - startTimeRef.current;
       const progress = Math.min(elapsed / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-      setDisplayScore(score * eased);
+      setDisplayScore(normScore * eased);
       if (progress < 1) requestRef.current = requestAnimationFrame(animate);
     };
     requestRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(requestRef.current);
-  }, [score, animated]);
+  }, [normScore, animated]);
 
   const radius = (size - 20) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -88,7 +88,7 @@ export default function RiskGauge({ score = 0, size = 200, animated = true, clas
       {/* Center content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className={cn('text-4xl font-bold tabular-nums', colors.text)}>
-          {formatPercentage(pct, 0)}
+          {formatPercentage(displayScore, 0)}
         </span>
         <span className={cn('text-sm font-semibold mt-1', colors.text)}>
           {label}

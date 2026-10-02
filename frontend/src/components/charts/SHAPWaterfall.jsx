@@ -22,8 +22,42 @@ export default function SHAPWaterfall({ data, height = 400 }) {
   const { isDark } = useTheme();
   const textColor = isDark ? '#94a3b8' : '#64748b';
 
-  // Sort by absolute contribution descending
-  const sorted = [...data].sort((a, b) => Math.abs(b.contribution) - Math.abs(a.contribution)).slice(0, 10);
+  // Safely normalize data whether it's an array, object, or explanation structure
+  let list = [];
+  if (Array.isArray(data)) {
+    list = data;
+  } else if (data && typeof data === 'object') {
+    if (Array.isArray(data.top_drivers)) {
+      list = data.top_drivers.map((d) => ({
+        feature: d.display || d.feature,
+        value: '',
+        contribution: d.contribution,
+        direction: d.direction === 'increases' ? 'increase' : 'decrease',
+        description: d.display || d.feature,
+      }));
+    } else {
+      list = Object.entries(data).map(([feature, contribution]) => ({
+        feature: feature.replace(/_/g, ' '),
+        value: '',
+        contribution: typeof contribution === 'number' ? contribution : 0,
+        direction: contribution > 0 ? 'increase' : 'decrease',
+        description: feature,
+      }));
+    }
+  }
+
+  const sorted = list
+    .filter((item) => item && typeof item.contribution === 'number' && !isNaN(item.contribution))
+    .sort((a, b) => Math.abs(b.contribution) - Math.abs(a.contribution))
+    .slice(0, 10);
+
+  if (sorted.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-40 text-slate-400 text-xs">
+        No feature attribution drivers available for this record.
+      </div>
+    );
+  }
 
   return (
     <ResponsiveContainer width="100%" height={height}>

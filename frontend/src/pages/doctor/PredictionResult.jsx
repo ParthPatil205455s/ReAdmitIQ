@@ -49,20 +49,22 @@ export default function PredictionResult() {
 
   const p = patient || allPatients[0];
 
+  const actualScore = prediction?.riskScore ?? prediction?.risk_probability ?? (p?.riskScore ? (p.riskScore > 1 ? p.riskScore / 100 : p.riskScore) : 0.18);
+
   // Calculate simulated risk score based on what-if slider controls
-  let simulatedScore = p.riskScore || 0.68;
-  if (simHbA1c < 7.0) simulatedScore -= 0.12;
-  else if (simHbA1c > 9.0) simulatedScore += 0.08;
+  let simulatedScore = actualScore;
+  if (simHbA1c < 7.0) simulatedScore -= 0.05;
+  else if (simHbA1c > 9.0) simulatedScore += 0.06;
 
-  if (simHomeHealth) simulatedScore -= 0.14;
-  if (simMedRecon) simulatedScore -= 0.08;
-  if (simFollowupDays <= 3) simulatedScore -= 0.06;
+  if (simHomeHealth) simulatedScore -= 0.04;
+  if (simMedRecon) simulatedScore -= 0.03;
+  if (simFollowupDays <= 3) simulatedScore -= 0.03;
 
-  simulatedScore = Math.max(0.05, Math.min(0.95, simulatedScore));
+  simulatedScore = Math.max(0.04, Math.min(0.85, simulatedScore));
 
-  const displayScore = showSimulator ? simulatedScore : p.riskScore || 0.68;
+  const displayScore = showSimulator ? simulatedScore : actualScore;
   const displayLevel =
-    displayScore > 0.6 ? 'high' : displayScore > 0.3 ? 'medium' : 'low';
+    displayScore > 0.45 ? 'high' : displayScore > 0.22 ? 'medium' : 'low';
 
   return (
     <div className="space-y-6">

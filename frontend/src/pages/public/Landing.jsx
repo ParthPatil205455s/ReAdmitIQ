@@ -48,9 +48,24 @@ export default function Landing() {
           </div>
 
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-            <a href="#features" className="hover:text-teal-400 transition-colors">Features</a>
-            <a href="#workflow" className="hover:text-teal-400 transition-colors">Clinical Workflow</a>
-            <a href="#metrics" className="hover:text-teal-400 transition-colors">Model Metrics</a>
+            <button
+              onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
+              className="hover:text-teal-400 transition-colors"
+            >
+              Features
+            </button>
+            <button
+              onClick={() => document.getElementById('workflow')?.scrollIntoView({ behavior: 'smooth' })}
+              className="hover:text-teal-400 transition-colors"
+            >
+              Clinical Workflow
+            </button>
+            <button
+              onClick={() => document.getElementById('metrics')?.scrollIntoView({ behavior: 'smooth' })}
+              className="hover:text-teal-400 transition-colors"
+            >
+              Model Metrics
+            </button>
             <Link to="/model-card" className="hover:text-teal-400 transition-colors">AI Transparency</Link>
           </div>
 
